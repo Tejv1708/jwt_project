@@ -38,16 +38,16 @@ if (process.env.NODE_ENV === 'development') {
     }),
   );
 }
-// Limit request from same Api
-const limiter = rateLimit({
-  max: 100,
-  windowMs: 60 * 60 * 1000,
-  message: 'Too many request from this IP , Please try again in an hour ',
-});
-app.use('/api', limiter);
+// // Limit request from same Api
+// const limiter = rateLimit({
+//   max: 100,
+//   windowMs: 60 * 60 * 1000,
+//   message: 'Too many request from this IP , Please try again in an hour ',
+// });
+// app.use('/api', limiter);
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: '*',
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
