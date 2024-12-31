@@ -1,5 +1,5 @@
-import Comment from "../model/Comment.js";
-import catchAsync from "../utils/catchAsync.js";
+import Comment from '../model/Comment.js';
+import catchAsync from '../utils/catchAsync.js';
 
 export const allComment = catchAsync(async (req, res) => {
   const newComment = await Comment.create({

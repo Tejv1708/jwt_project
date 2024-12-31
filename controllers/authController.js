@@ -1,10 +1,15 @@
 import { promisify } from 'util';
 import User from '../model/User.js';
+import dotenv from 'dotenv';
 import catchAsync from '../utils/catchAsync.js';
 import jwt from 'jsonwebtoken';
 import AppError from '../utils/appError.js';
 import sendEmail from '../utils/email.js';
 import crypto from 'crypto';
+import { log } from 'console';
+
+dotenv.config();
+
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
@@ -22,6 +27,7 @@ const createSendToken = (user, statusCode, res) => {
     // Could be modified by browser in any way
     httpOnly: true,
   };
+  console.log('developement :', process.env.NODE_ENV);
   if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
   res.cookie('jwt', token, cookieOptions);
   // Remove the password from the user
@@ -43,12 +49,13 @@ export const signup = catchAsync(async (req, res, next) => {
     passwordConfirm: req.body.passwordConfirm,
     role: req.body.role,
   });
+  console.log('name in env', process.env.JWT_SECRET);
   createSendToken(newUser, 201, res);
 });
 
 export const login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
-
+  console.log('Login');
   // 1) check if email and password exist
   if (!email || !password) {
     return next(new AppError('Please provide email and password!', 400));

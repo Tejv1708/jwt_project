@@ -23,14 +23,15 @@ process.on('uncaughtException', (err) => {
   process.exit(1);
 });
 
-dotenv.config();
-
+dotenv.config({ path: './.env' });
+console.log(process.env);
 const app = express();
 // GLOBAL MIDDLEWARE
 // Set Security Http header
 
 app.use(helmet());
 // Development loggin
+console.log('node env : ', process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'development') {
   app.use(
     morgan('dev', {
